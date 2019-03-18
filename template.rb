@@ -61,16 +61,6 @@ def add_gems
   end
 end
 
-def application_name
-  rails_5? ? Rails.application.class.parent_name : Rails.application.class.module_parent_name
-end
-
-def set_application_name
-  environment "config.application_name = #{application_name}"
-  # Announce the user where he can change the application name in the future.
-  puts "You can change application name inside: ./config/application.rb"
-end
-
 def add_autoload_paths
   application "config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**/}')]"
   application "config.autoload_paths += Dir[Rails.root.join('app', 'controllers', '{**/}')]"
@@ -118,7 +108,7 @@ def configure_db
   db_username =  ask("Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
   puts('STEP -> 2/3')
-  db_name = ask("Nome database ? (#{application_name})")
+  db_name = ask("Nome database ? (rails_app)")
   db_name = application_name unless db_name.present?
   puts('STEP -> 3/3')
   db_port = ask("Porta del servizio ? (32768)")
@@ -135,7 +125,6 @@ add_gems
 add_autoload_paths
 
 after_bundle do
-  set_application_name
   stop_spring
   add_knock
   configure_db
