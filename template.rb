@@ -101,9 +101,6 @@ end
 def configure_db
   remove_file 'config/database.yml'
   copy_file 'config/database.yml'
-
-  enable_pg_uuid_extension
-  
   puts("\n[Database Config][username][1/3]")
   db_username =  ask("Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
@@ -117,6 +114,8 @@ def configure_db
   gsub_file('config/database.yml', /%username%/, db_username)
   gsub_file('config/database.yml', /%port%/, db_port)
   gsub_file('config/database.yml', /%application_name%/, db_name)
+  
+  enable_pg_uuid_extension if yes?("\nUtilizzare UUID ?")
 end
 
 # Main setup
