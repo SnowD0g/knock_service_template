@@ -84,10 +84,8 @@ def add_knock
   gsub_file('config/initializers/knock.rb', /# config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }/,'config.token_secret_signature_key = -> { Rails.application.credentials.jwt_secret }')
     
   # User Model
-  rails_command "g migration create_user email password_digest type"
+  generate "migration create_user email password_digest type"
   copy_file 'app/models/users/user.rb'
-
- 
   # Api Base Controller
   copy_file 'app/controllers/concerns/permission.rb'
   copy_file 'app/controllers/api/v1/base_controller.rb'
@@ -103,6 +101,9 @@ end
 def configure_db
   remove_file 'config/database.yml'
   copy_file 'config/database.yml'
+
+  enable_pg_uuid_extension
+  
   puts("\n[Database Config][username][1/3]")
   db_username =  ask("Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
@@ -125,9 +126,9 @@ add_autoload_paths
 
 after_bundle do
   stop_spring
+  configure_db
   add_knock
   configure_db
-  enable_pg_uuid_extension
   enable_redis_caching
 
   # Migrate
