@@ -113,14 +113,14 @@ end
 def configure_db
   remove_file 'config/database.yml'
   copy_file 'config/database.yml'
-  say('Configurazione Database')
-  say('STEP -> 1/3')
+  puts('Configurazione Database')
+  puts('STEP -> 1/3')
   db_username =  ask("Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
-  say('STEP -> 2/3')
+  puts('STEP -> 2/3')
   db_name = ask("Nome database ? (#{application_name})")
   db_name = application_name unless db_name.present?
-  say('STEP -> 3/3')
+  puts('STEP -> 3/3')
   db_port = ask("Porta del servizio ? (32768)")
   db_port = '32768' unless db_port.present?
   
