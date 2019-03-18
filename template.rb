@@ -74,7 +74,7 @@ def enable_pg_uuid_extension
 end
 
 def enable_redis_caching
-  environment 'config.action_controller.perform_caching = true', env: 'development'
+  rails_command "db:create"
   environment 'config.cache_store = :redis_cache_store', env: 'development'
 end
 
@@ -127,7 +127,6 @@ after_bundle do
   stop_spring
   configure_db
   add_knock
-  configure_db
   enable_redis_caching
 
   # Migrate
