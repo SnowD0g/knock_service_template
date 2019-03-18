@@ -116,13 +116,12 @@ def configure_db
   
   db_username =  ask("Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
-  
   db_name = ask("Nome database ? (#{application_name})")
   db_name = application_name unless db_name.present?
- 
   db_port = ask("Porta del servizio ? (32768)")
   db_port = '32768' unless db_port.present?
   
+  gsub_file('config/database.yml', /%username%/, db_username)
   gsub_file('config/database.yml', /%port%/, db_port)
   gsub_file('config/database.yml', /%application_name%/, db_name)
 end
