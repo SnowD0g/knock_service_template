@@ -62,15 +62,13 @@ def add_gems
 end
 
 def set_application_name
-  # Add Application Name to Config
-  if rails_5?
-    environment "config.application_name = Rails.application.class.parent_name"
-  else
-    environment "config.application_name = Rails.application.class.module_parent_name"
-  end
-
+  environment "config.application_name = #{application_name}"
   # Announce the user where he can change the application name in the future.
   puts "You can change application name inside: ./config/application.rb"
+end
+
+def application_name
+  rails_5? ? 'Rails.application.class.parent_name' : 'Rails.application.class.module_parent_name'
 end
 
 def add_autoload_paths
@@ -112,6 +110,14 @@ def stop_spring
   run "spring stop"
 end
 
+def configure_db
+  copy_file 'config/database.yml'
+  db_name = ask("Nome database ? (#{application_name})") || application_name
+  db_port = ask("Porta del servizio ? (32768)") || '32768'
+  gsub_file('config/database.yml', /%port%/, db_port)
+  gsub_file('config/database.yml', /%application_name%/, db_name)
+end
+
 # Main setup
 add_template_repository_to_source_path
 add_gems
@@ -121,7 +127,7 @@ after_bundle do
   set_application_name
   stop_spring
   add_knock
-  
+  configure_db
   enable_pg_uuid_extension
   enable_redis_caching
 
