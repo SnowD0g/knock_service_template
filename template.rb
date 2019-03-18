@@ -109,7 +109,7 @@ def configure_db
   db_username = 'postgres' unless db_username.present?
   puts('STEP -> 2/3')
   db_name = ask("Nome database ? (rails_app)")
-  db_name = application_name unless db_name.present?
+  db_name = 'rails_app' unless db_name.present?
   puts('STEP -> 3/3')
   db_port = ask("Porta del servizio ? (32768)")
   db_port = '32768' unless db_port.present?
