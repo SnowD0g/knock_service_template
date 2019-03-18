@@ -61,14 +61,14 @@ def add_gems
   end
 end
 
+def application_name
+  rails_5? ? Rails.application.class.parent_name : Rails.application.class.module_parent_name
+end
+
 def set_application_name
   environment "config.application_name = #{application_name}"
   # Announce the user where he can change the application name in the future.
   puts "You can change application name inside: ./config/application.rb"
-end
-
-def application_name
-  rails_5? ? Rails.application.class.parent_name : Rails.application.class.module_parent_name
 end
 
 def add_autoload_paths
