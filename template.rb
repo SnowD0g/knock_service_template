@@ -95,7 +95,7 @@ def add_knock
   generate "knock:install"
   gsub_file('config/initializers/knock.rb'), 
     '# config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }',
-    'config.token_secret_signature_key = -> { Rails.application.credentials.jwt_secret }
+    'config.token_secret_signature_key = -> { Rails.application.credentials.jwt_secret }'
     
   # User Model
   generate "migration User email password_digest type"
