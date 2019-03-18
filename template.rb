@@ -101,7 +101,7 @@ def add_knock
 
  
   # Api Base Controller
-  copy 'app/controllers/concerns/permission.rb'
+  copy_file 'app/controllers/concerns/permission.rb'
   copy_file 'api/v1/base_controller.rb'
 
   # Knock Controller
