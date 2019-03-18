@@ -7,7 +7,7 @@ development:
   <<: *default
   host: localhost
   port: %port%
-  username: postgres
+  username: %username%
   database: %application_name%_development
 
 staging:
