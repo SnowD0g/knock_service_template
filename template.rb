@@ -111,8 +111,8 @@ def configure_db
   db_name = ask("Nome database ? (rails_app)")
   db_name = 'rails_app' unless db_name.present?
   puts('STEP -> 3/3')
-  db_port = ask("Porta del servizio ? (32768)")
-  db_port = '32768' unless db_port.present?
+  db_port = ask("Porta del servizio ? (32770)")
+  db_port = '32770' unless db_port.present?
   
   gsub_file('config/database.yml', /%username%/, db_username)
   gsub_file('config/database.yml', /%port%/, db_port)
