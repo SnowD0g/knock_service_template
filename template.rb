@@ -81,7 +81,7 @@ end
 def enable_pg_uuid_extension
   generate "migration enable_pgcrypto_extension"
   file_name = Dir.entries("db/migrate").select{ |file| file.include?('enable_pgcrypto_extension')}.first
-  insert_into_file 'db/migrate/file_name', "enable_extension 'pgcrypto'", after: "def change"
+  insert_into_file "db/migrate/#{file_name}", "enable_extension 'pgcrypto'", after: "def change"
   application 'config.generators { |generator| generator.orm :active_record, primary_key_type: :uuid }'
 end
 
@@ -120,6 +120,7 @@ add_autoload_paths
 after_bundle do
   set_application_name
   stop_spring
+  add_knock
   
   enable_pg_uuid_extension
   enable_redis_caching
