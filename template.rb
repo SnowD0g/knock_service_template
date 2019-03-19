@@ -42,6 +42,7 @@ def rails_6?
 end
 
 def add_gems
+  gem 'foreman'
   gem 'pg', '>= 0.18', '< 2.0'
   gem 'redis', '~> 4.0', '>= 4.0.1'
   gem 'jbuilder', '~> 2.5'
@@ -68,6 +69,7 @@ end
 def add_autoload_paths
   application "config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**/}')]"
   application "config.autoload_paths += Dir[Rails.root.join('app', 'controllers', '{**/}')]"
+  application "config.autoload_paths += Dir[Rails.root.join('app', '{**/}')]"
 end
 
 def enable_redis_caching
@@ -120,6 +122,8 @@ after_bundle do
   rails_command "db:migrate"
   copy 'db/seeds.rb'
   rails_command "db:seed"
+  
+  #foreman
 
   # Commit everything to git
   init_git
