@@ -1,4 +1,4 @@
-require 'template_runner'
+require 'railties/lib/rails_generator/generators/applications/app/template_runner'
 
 class DemocomApplication
   attr_reader :application_name, :ruby_version
