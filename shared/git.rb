@@ -4,6 +4,7 @@ def init_git
   git :init
   git add: "."
   git commit: %Q{ -m 'Initial commit' }
+  git branch: 'staging'
   puts "[Git] Inizializzo git locale: OK"
 
   #clone bare
