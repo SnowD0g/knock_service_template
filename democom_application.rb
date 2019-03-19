@@ -1,9 +1,8 @@
 class DemocomApplication
-  attr_reader :name, :ruby_version
-  alias_method :name, :application_name
-  
+  attr_reader :application_name, :ruby_version
+
   def initialize
-    @name = ask('Nome Applicazione:').underscore
+    @application_name = ask('Nome Applicazione:').underscore
     @ruby_version = ask('Versione ruby:').underscore
   end
 end
