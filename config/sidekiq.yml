@@ -1,7 +1,6 @@
 ---
 :verbose: false
 :concurrency: 10
-:port: 32769
 :pidfile: tmp/pids/sidekiq.pid
 
 # you can override concurrency based on environment
