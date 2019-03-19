@@ -1,17 +1,16 @@
 require "fileutils"
 require "shellwords"
+require "democom_application"
 
 # Copied from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
 # copy_file and template resolve against our source files. If this file was
 # invoked remotely via HTTP, that means the files are not present locally.
 # In that case, use `git clone` to download them to a local temporary dir.
-def set_application_name
-  @application_name = ask('Nome Applicazione:').underscore
-end
+delegate :application_name, to: :democom_application
 
-def application_name
-  @application_name
+def democom_application
+  @democom_application ||= DemocomApplication.new
 end
 
 def add_template_repository_to_source_path
