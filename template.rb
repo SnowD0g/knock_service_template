@@ -1,6 +1,5 @@
 require "fileutils"
 require "shellwords"
-require_relative "democom_application"
 
 # Copied from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
