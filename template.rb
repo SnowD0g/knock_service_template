@@ -14,7 +14,7 @@ else
   source_paths.unshift(File.dirname(__FILE__))
 end
 
-require 'democom_application'
+apply('democom_application.rb')
 
 def democom_application
   @democom_application ||= DemocomApplication.new
