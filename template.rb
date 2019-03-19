@@ -130,6 +130,7 @@ def init_git
   puts "\n[Git] Clonazione bare in locale"
   tempdir = Dir.mktmpdir("service")
   at_exit { FileUtils.remove_entry(tempdir) }
+  repo_name = "#{application_name}.git"
   git clone: "--bare . #{tempdir}/#{repo_name}"
   puts "\n[Git] Clonazione bare in locale: OK"
   
@@ -141,8 +142,7 @@ def init_git
   remote_path = ask("\nGit][2/4] Path git (/home/web/git/) ?")
   remote_path = "/home/web/git/" unless remote_path.present?
   remote_url = "#{server}#{remote_path}"
-  repo_name = "#{application_name}.git"
-  
+
   puts "\n[Git][3/4] Creo il remote:"
   git remote: "add deploy #{remote_url}#{repo_name}" 
   #copia bare
