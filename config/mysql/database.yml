@@ -1,0 +1,33 @@
+mysql: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 50
+
+localhost: &localhost
+  <<: *mysql
+  host: localhost
+  port: %port%
+  username: %username%
+  
+deploy: &deploy
+  <<: *mysql
+  username: <%= ENV['SW_ACCOUNT_DB_USERNAME'] %>
+  password: <%= ENV['SW_ACCOUNT_DB_PASSWORD'] %>
+  socket: /var/run/mysqld/mysqld.sock
+
+development:
+  <<: *localhost
+  database: %application_name%_development
+  
+test:
+  <<: *localhost
+  database: %application_name%_test
+
+staging
+  <<: *deploy
+  database: %application_name%_staging
+
+production
+  <<: *deploy
+  database: %application_name%_production
+
