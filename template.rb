@@ -24,10 +24,6 @@ def add_template_repository_to_source_path
       "https://github.com/SnowD0g/knock_service_template.git",
       tempdir
     ].map(&:shellescape).join(" ")
-
-    if (branch = __FILE__[%r{jumpstart/(.+)/template.rb}, 1])
-      Dir.chdir(tempdir) { git checkout: branch }
-    end
   else
     source_paths.unshift(File.dirname(__FILE__))
   end
@@ -129,9 +125,21 @@ def init_git
   git commit: %Q{ -m 'Initial commit' }
   
   #remote
-  remote_url = ask("Url git remoto (web@ns3051471.ovh.net:/home/web/git(#{application_name}.git) ?")
-  remote_url = "web@ns3051471.ovh.net:/home/web/git/#{application_name}.git" unless remote_url.present?
-  git remote: "add deploy #{remote_url}"
+  server = ask("Server Remoto (web@ns3051471.ovh.net:) ?")
+  server = "web@ns3051471.ovh.net:" unless server.present?
+  
+  remote_path = ask("Path git (/home/web/git/) ?")
+  remote_path = "/home/web/git/" unless remote_path.present?
+  remote_url = "#{server}#{remote_path}"
+  repo_name = "#{application_name}.git"
+  
+  git remote: "add deploy #{remote_url}#{repo_name}" 
+  tempdir = Dir.mktmpdir("service")
+  at_exit { FileUtils.remove_entry(tempdir) }
+
+  git clone: "--bare #{tempdir}/#{repo_name} ."
+  tempdir = Dir.mktmpdir("service-")
+  run "scp -r #{tempdir} #{remote_url}#{repo_name}"
 end
 
 # Main setup
