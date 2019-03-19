@@ -110,7 +110,7 @@ def init_sidekiq
 end
 
 def init_foreman
-  copy('Procfile')
+  copy_file('Procfile')
   run "foreman start"
 end
 
