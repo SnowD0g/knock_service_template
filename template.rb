@@ -54,6 +54,7 @@ def add_gems
   gem 'kaminari'
   gem 'jbuilder_pagination', require: 'jbuilder/pagination'
   gem 'knock'
+  gem 'sidekiq'
   gem_group :development do
     gem 'listen', '>= 3.0.5', '< 3.2'
     gem 'spring'
