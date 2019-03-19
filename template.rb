@@ -105,6 +105,15 @@ def init_git
   apply('shared/git.rb')
 end
 
+def init_sidekiq
+  apply('shared/sidekiq.rb')
+end
+
+def init_foreman
+  copy('Procfile')
+  run "foreman start"
+end
+
 # Main setup
 add_template_repository_to_source_path
 set_application_name
@@ -122,9 +131,12 @@ after_bundle do
   rails_command "db:migrate"
   copy 'db/seeds.rb'
   rails_command "db:seed"
-  
-  #foreman
 
+  # Service
+  init_sidekiq
+  
+  # Foreman
+  init_foreman
   # Commit everything to git
   init_git
 end
