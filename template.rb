@@ -70,13 +70,6 @@ def add_autoload_paths
   application "config.autoload_paths += Dir[Rails.root.join('app', 'controllers', '{**/}')]"
 end
 
-def enable_pg_uuid_extension
-  generate "migration enable_pgcrypto_extension"
-  file_name = Dir.entries("db/migrate").select{ |file| file.include?('enable_pgcrypto_extension')}.first
-  insert_into_file "db/migrate/#{file_name}", "\n  enable_extension 'pgcrypto'", after: "def change"
-  application 'config.generators { |generator| generator.orm :active_record, primary_key_type: :uuid }'
-end
-
 def enable_redis_caching
   rails_command "db:create"
   environment 'config.cache_store = :redis_cache_store', env: 'development'
@@ -104,52 +97,10 @@ end
 
 def configure_db
   apply('shared/database.rb')
-  #remove_file 'config/database.yml'
-  #copy_file 'config/database.yml'
-  #db_username =  ask("\n[Database Config][1/4] Nome Utente ? (postgres)")
-  #db_username = 'postgres' unless db_username.present?
-  #db_name = ask("\n[Database Config][2/4] Nome database ? (#{application_name})")
-  #db_name = application_name unless db_name.present?
-  #db_port = ask("\n[Database Config][3/4] Porta del servizio ? (32770)")
-  #db_port = '32770' unless db_port.present?
-  #gsub_file('config/database.yml', /%username%/, db_username)
-  #gsub_file('config/database.yml', /%port%/, db_port)
-  #gsub_file('config/database.yml', /%application_name%/, db_name)
-  
-  #enable_pg_uuid_extension if yes?("\n[Database Config][4/4] Utilizzare UUID ? y/n")
 end
 
 def init_git
-  # locale
-  puts "\n[Git] Inizializzo git locale"
-  git :init
-  git add: "."
-  git commit: %Q{ -m 'Initial commit' }
-  puts "[Git] Inizializzo git locale: OK"
-
-  #clone bare
-  puts "\n[Git] Clonazione bare in locale"
-  tempdir = Dir.mktmpdir("service")
-  #at_exit { FileUtils.remove_entry(tempdir) }
-  repo_name = "#{application_name}.git"
-  git clone: "--bare . #{tempdir}/#{repo_name}"
-  puts "\n[Git] Clonazione bare in locale: OK"
-  
-  #remote
-  puts "\n[Git] Remote Repository"
-  server = ask("\nGit][1/4] Server Remoto (web@ns3051471.ovh.net:) ?")
-  server = "web@ns3051471.ovh.net:" unless server.present?
-  
-  remote_path = ask("\nGit][2/4] Path git (/home/web/git/) ?")
-  remote_path = "/home/web/git/" unless remote_path.present?
-  remote_url = "#{server}#{remote_path}"
-
-  puts "\n[Git][3/4] Creo il remote:"
-  git remote: "add deploy #{remote_url}#{repo_name}" 
-  #copia bare
-  puts "\n[Git][4/4] Copio il clone bare sul server remoto"
-  run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
-  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
+  apply('shared/git.rb')
 end
 
 # Main setup
@@ -167,6 +118,8 @@ after_bundle do
   # Migrate
   rails_command "db:create"
   rails_command "db:migrate"
+  copy 'db/seeds.rb'
+  rails_command "db:seed"
 
   # Commit everything to git
   init_git
