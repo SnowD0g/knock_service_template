@@ -135,9 +135,10 @@ after_bundle do
 
   # Service
   init_sidekiq
+
+  # Commit everything to git
+  init_git
   
   # Foreman
   init_foreman
-  # Commit everything to git
-  init_git
 end
