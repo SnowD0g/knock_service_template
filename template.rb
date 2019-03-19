@@ -94,6 +94,15 @@ def add_knock
   copy_file 'app/controllers/api/v1/user_token_controller.rb'
   
   # aggiungere routes
+  content = <<-RUBY
+    namespace :api do
+      namespace :v1, defaults: { :format => :json } do
+        post 'user_token' => 'user_token#create'
+      end
+    end
+  RUBY
+  
+  insert_into_file "config/routes.rb", "#{content}\n\n", after: "Rails.application.routes.draw do\n"
 end
 
 def stop_spring
