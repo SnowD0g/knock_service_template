@@ -1,20 +1,6 @@
 require "fileutils"
 require "shellwords"
 
-# Copied from: https://github.com/mattbrictson/rails-template
-# Add this template directory to source_paths so that Thor actions like
-# copy_file and template resolve against our source files. If this file was
-# invoked remotely via HTTP, that means the files are not present locally.
-# In that case, use `git clone` to download them to a local temporary dir.
-
-def democom_application
-  @democom_application ||= DemocomApplication.new
-end
-
-def application_name
-  democom_application.application_name
-end
-
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
     require "tmpdir"
@@ -29,6 +15,17 @@ def add_template_repository_to_source_path
     source_paths.unshift(File.dirname(__FILE__))
   end
 end
+
+require 'democom_application'
+
+def democom_application
+  @democom_application ||= DemocomApplication.new
+end
+
+def application_name
+  democom_application.application_name
+end
+
 
 def rails_version
   @rails_version ||= Gem::Version.new(Rails::VERSION::STRING)
