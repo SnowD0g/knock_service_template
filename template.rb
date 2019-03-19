@@ -26,6 +26,10 @@ def remote_repo
   @democom_application.remote_repo
 end
 
+def ruby_version
+  @democom_application.ruby_version
+end
+
 def rails_version
   @rails_version ||= Gem::Version.new(Rails::VERSION::STRING)
 end
