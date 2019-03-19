@@ -1,19 +1,17 @@
 require "fileutils"
 require "shellwords"
 
-def add_template_repository_to_source_path
-  if __FILE__ =~ %r{\Ahttps?://}
-    require "tmpdir"
-    source_paths.unshift(tempdir = Dir.mktmpdir("service-"))
-    at_exit { FileUtils.remove_entry(tempdir) }
-    git clone: [
-      "--quiet",
-      "https://github.com/SnowD0g/knock_service_template.git",
-      tempdir
-    ].map(&:shellescape).join(" ")
-  else
-    source_paths.unshift(File.dirname(__FILE__))
-  end
+if __FILE__ =~ %r{\Ahttps?://}
+  require "tmpdir"
+  source_paths.unshift(tempdir = Dir.mktmpdir("service-"))
+  at_exit { FileUtils.remove_entry(tempdir) }
+  git clone: [
+    "--quiet",
+    "https://github.com/SnowD0g/knock_service_template.git",
+    tempdir
+  ].map(&:shellescape).join(" ")
+else
+  source_paths.unshift(File.dirname(__FILE__))
 end
 
 require 'democom_application'
@@ -125,7 +123,7 @@ def init_foreman
 end
 
 # Main setup
-add_template_repository_to_source_path
+#add_template_repository_to_source_path
 add_gems
 add_autoload_paths
 
