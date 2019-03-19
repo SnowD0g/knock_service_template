@@ -115,11 +115,11 @@ def configure_db
   db_name = application_name unless db_name.present?
   db_port = ask("\n[Database Config][3/4] Porta del servizio ? (32770)")
   db_port = '32770' unless db_port.present?
-  enable_pg_uuid_extension if yes?("\n[Database Config][4/4] Utilizzare UUID ? y/n")
-  
   gsub_file('config/database.yml', /%username%/, db_username)
   gsub_file('config/database.yml', /%port%/, db_port)
   gsub_file('config/database.yml', /%application_name%/, db_name)
+  
+  enable_pg_uuid_extension if yes?("\n[Database Config][4/4] Utilizzare UUID ? y/n")
 end
 
 def init_git
