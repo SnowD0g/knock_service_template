@@ -138,7 +138,6 @@ def init_git
   at_exit { FileUtils.remove_entry(tempdir) }
 
   git clone: "--bare . #{tempdir}/#{repo_name}"
-  tempdir = Dir.mktmpdir("service-")
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
 end
 
