@@ -6,6 +6,14 @@ require "shellwords"
 # copy_file and template resolve against our source files. If this file was
 # invoked remotely via HTTP, that means the files are not present locally.
 # In that case, use `git clone` to download them to a local temporary dir.
+def set_application_name
+  @application_name = ask('Nome Applicazione').underscore
+end
+
+def application_name
+  @application_name
+end
+
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
     require "tmpdir"
@@ -101,25 +109,35 @@ end
 def configure_db
   remove_file 'config/database.yml'
   copy_file 'config/database.yml'
-  puts("\n[Database Config][username][1/3]")
-  db_username =  ask("Nome Utente ? (postgres)")
+  db_username =  ask("\n[Database Config][1/4] Nome Utente ? (postgres)")
   db_username = 'postgres' unless db_username.present?
-  puts("\n[Database Config][database][2/3]")
-  db_name = ask("Nome database ? (rails_app)")
+  puts("\n[Database Config][database][2/4]")
+  db_name = ask("\n[Database Config][2/4] Nome database ? (rails_app)")
   db_name = 'rails_app' unless db_name.present?
-  puts("\n[Database Config][port][3/3]")
-  db_port = ask("Porta del servizio ? (32770)")
+  db_port = ask("\n[Database Config][3/4] Porta del servizio ? (32770)")
   db_port = '32770' unless db_port.present?
+  enable_pg_uuid_extension if yes?("\n[Database Config][4/4]Utilizzare UUID (no)?")
   
   gsub_file('config/database.yml', /%username%/, db_username)
   gsub_file('config/database.yml', /%port%/, db_port)
   gsub_file('config/database.yml', /%application_name%/, db_name)
+end
+
+def init_git
+  # locale
+  git :init
+  git add: "."
+  git commit: %Q{ -m 'Initial commit' }
   
-  enable_pg_uuid_extension if yes?("\nUtilizzare UUID ?")
+  #remote
+  remote_url = ask("Url git remoto (web@ns3051471.ovh.net:/home/web/git(#{application_name}.git) ?")
+  remote_url = "web@ns3051471.ovh.net:/home/web/git(#{application_name}.git" unless remote_url.present?
+  git remote: "add deploy #{remote_url}"
 end
 
 # Main setup
 add_template_repository_to_source_path
+set_application_name
 add_gems
 add_autoload_paths
 
@@ -134,7 +152,5 @@ after_bundle do
   rails_command "db:migrate"
 
   # Commit everything to git
-  git :init
-  git add: "."
-  git commit: %Q{ -m 'Initial commit' }
+  init_git
 end
