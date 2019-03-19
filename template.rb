@@ -16,12 +16,10 @@ end
 
 apply('democom_application.rb')
 
-def democom_application
-  @democom_application ||= DemocomApplication.new
-end
+@democom_application ||= DemocomApplication.new
 
 def application_name
-  democom_application.application_name
+  @democom_application.application_name
 end
 
 
