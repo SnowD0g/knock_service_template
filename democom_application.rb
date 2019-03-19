@@ -7,7 +7,7 @@ class DemocomApplication
   end
   
   def ask(string)
-    log '', string
+    puts string
     STDIN.gets.strip
   end
 end
