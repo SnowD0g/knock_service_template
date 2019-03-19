@@ -15,12 +15,15 @@ def deploy
 end
 
 def check_deploy
+  run 'cap production deploy:check'
+  run 'cap staging deploy:check'
 end
 
 def init_capistrano
   capfile
   deploy
   set_environments
+  check_deploy
 end
 
 init_capistrano
