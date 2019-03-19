@@ -122,6 +122,10 @@ def init_sidekiq
   apply('shared/sidekiq.rb')
 end
 
+def init_capistrano
+  apply('shared/capistrano.rb')
+end
+
 def init_foreman
   copy_file('Procfile')
   run "foreman start"
@@ -151,6 +155,9 @@ after_bundle do
   # Commit everything to git
   init_git
   
+  # Capistrano
+  init_capistrano
+
   # Foreman
   init_foreman
 end
