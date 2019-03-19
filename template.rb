@@ -92,6 +92,8 @@ def add_knock
 
   # Knock Controller
   copy_file 'app/controllers/api/v1/user_token_controller.rb'
+  
+  # aggiungere routes
 end
 
 def stop_spring
