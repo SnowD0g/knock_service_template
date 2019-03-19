@@ -120,25 +120,37 @@ end
 
 def init_git
   # locale
+  puts "\n[Git] Inizializzo git locale"
   git :init
   git add: "."
   git commit: %Q{ -m 'Initial commit' }
+  puts "[Git] Inizializzo git locale: OK"
+
+  #clone bare
+  puts "\n[Git] Clonazione bare in locale"
+  tempdir = Dir.mktmpdir("service")
+  at_exit { FileUtils.remove_entry(tempdir) }
+  git clone: "--bare . #{tempdir}/#{repo_name}"
+  puts "\n[Git] Clonazione bare in locale: OK"
   
   #remote
-  server = ask("Server Remoto (web@ns3051471.ovh.net:) ?")
+  puts "\n[Git] Remote Repository"
+  server = ask("\nGit][1/4] Server Remoto (web@ns3051471.ovh.net:) ?")
   server = "web@ns3051471.ovh.net:" unless server.present?
   
-  remote_path = ask("Path git (/home/web/git/) ?")
+  remote_path = ask("\nGit][2/4] Path git (/home/web/git/) ?")
   remote_path = "/home/web/git/" unless remote_path.present?
   remote_url = "#{server}#{remote_path}"
   repo_name = "#{application_name}.git"
   
+  puts "\n[Git][3/4] Creo il remote:"
   git remote: "add deploy #{remote_url}#{repo_name}" 
-  tempdir = Dir.mktmpdir("service")
-  at_exit { FileUtils.remove_entry(tempdir) }
-
-  git clone: "--bare . #{tempdir}/#{repo_name}"
+  #copia bare
+  puts "\n[Git][4/4] Copio il clone bare sul server remoto"
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
+ 
+  run("FileUtils.remove_entry(#{tempdir})")
+  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
 end
 
 # Main setup
