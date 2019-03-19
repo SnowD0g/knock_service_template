@@ -139,7 +139,7 @@ def init_git
 
   git clone: "--bare . #{tempdir}/#{repo_name}"
   tempdir = Dir.mktmpdir("service-")
-  run "scp -r #{tempdir} #{remote_url}#{repo_name}"
+  run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
 end
 
 # Main setup
