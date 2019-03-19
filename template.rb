@@ -129,7 +129,6 @@ end
 
 # Main setup
 add_template_repository_to_source_path
-set_application_name
 add_gems
 add_autoload_paths
 
