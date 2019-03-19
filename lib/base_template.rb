@@ -1,0 +1,2 @@
+class BaseTemplate
+end
