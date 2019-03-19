@@ -1,0 +1,18 @@
+---
+:verbose: false
+:concurrency: 10
+:pidfile: tmp/pids/sidekiq.pid
+
+# you can override concurrency based on environment
+development:
+  :verbose: true
+  :queues:
+    - %application_name%_development_default
+production:
+  :concurrency: 25
+  :queues:
+    - %application_name%_production_default 
+staging:
+  :concurrency: 15
+  :queues:
+    - %application_name%_staging_default
