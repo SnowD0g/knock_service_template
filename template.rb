@@ -6,10 +6,13 @@ require "shellwords"
 # copy_file and template resolve against our source files. If this file was
 # invoked remotely via HTTP, that means the files are not present locally.
 # In that case, use `git clone` to download them to a local temporary dir.
-delegate :application_name, to: :democom_application
 
 def democom_application
   @democom_application ||= DemocomApplication.new
+end
+
+def application_name
+  democom_application.application_name
 end
 
 def add_template_repository_to_source_path
