@@ -1,3 +1,5 @@
+require 'template_runner'
+
 class DemocomApplication
   attr_reader :application_name, :ruby_version
 
