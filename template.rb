@@ -130,7 +130,7 @@ def init_git
   #clone bare
   puts "\n[Git] Clonazione bare in locale"
   tempdir = Dir.mktmpdir("service")
-  at_exit { FileUtils.remove_entry(tempdir) }
+  #at_exit { FileUtils.remove_entry(tempdir) }
   repo_name = "#{application_name}.git"
   git clone: "--bare . #{tempdir}/#{repo_name}"
   puts "\n[Git] Clonazione bare in locale: OK"
@@ -149,8 +149,6 @@ def init_git
   #copia bare
   puts "\n[Git][4/4] Copio il clone bare sul server remoto"
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
- 
-  run("FileUtils.remove_entry(#{tempdir})")
   puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
 end
 
