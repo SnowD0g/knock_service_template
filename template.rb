@@ -129,7 +129,7 @@ after_bundle do
   # Migrate
   rails_command "db:create"
   rails_command "db:migrate"
-  copy 'db/seeds.rb'
+  copy_file 'db/seeds.rb'
   rails_command "db:seed"
 
   # Service
