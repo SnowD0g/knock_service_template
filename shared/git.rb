@@ -1,4 +1,5 @@
-# locale
+def init_git
+  # locale
   puts "\n[Git] Inizializzo git locale"
   git :init
   git add: "."
@@ -28,3 +29,6 @@
   puts "\n[Git][4/4] Copio il clone bare sul server remoto"
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
   puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
+end
+
+init_git
