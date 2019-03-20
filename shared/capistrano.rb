@@ -15,7 +15,6 @@ def deploy
 end
 
 def check_deploy
-  run 'cap production rvm:create_gemset'
   run 'cap production deploy:check'
   run 'cap staging deploy:check'
 end
