@@ -2,10 +2,10 @@
 def configure_database
   remove_file 'config/database.yml'
   
-  database_type = ask("Database da utilizzare ? (mysql postgresql)")
+  database_type = ask("Database da utilizzare ? ([m]ysql [p]ostgresql)")
   
   case database_type
-  when 'postgresql'
+  when 'p'
   configure_postgresql
   else
   configure_mysql
