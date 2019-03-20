@@ -20,6 +20,6 @@ puts "\n[Git][2/3] Remote Repository: OK"
 
 #copia bare
 puts "\n[Git][3/3] Copia Remota del Bare"
-run "scp -r #{tempdir}/#{repo_name} #{server_url}:/tmp"
+run "scp -r #{tempdir}/#{repo_name} #{server_url}:#{repo_path}"
 puts "\n[Git][3/3] Copia Remota del Bare: OK"
 puts "Copia effettuata con successo! Spostare manualmente il bare da #{server_url}:/tmp -> #{server_url}:#{repo_name}"
