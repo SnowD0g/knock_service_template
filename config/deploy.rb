@@ -1,5 +1,5 @@
 set :application, "%application_name%"
-set :repo_url, "%remote_repo%"
+set :repo_url, "%repo_path%"
 
 set :rvm_ruby_string, "%ruby_version%@%application_name%"
 
