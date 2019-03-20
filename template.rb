@@ -68,7 +68,7 @@ def add_gems
     gem 'spring'
     gem 'spring-watcher-listen', '~> 2.0.0'
     gem 'capistrano', '3.10.2'
-    gem 'capistrano-rvm'
+    gem 'rvm-capistrano'
     gem 'capistrano-ssh-doctor'
     gem 'capistrano-rails'
     gem 'capistrano-passenger'
