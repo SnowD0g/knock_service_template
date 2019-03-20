@@ -1,7 +1,7 @@
 require "fileutils"
 require "shellwords"
 
-DEFAULTS = %w(my_app ruby-2.5.1 web@ns3051471.ovh.net /var/git/)
+DEFAULTS = %w(my_app ruby-2.5.1 root@ns3051471.ovh.net /var/git/)
 
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
