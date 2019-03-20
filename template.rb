@@ -24,10 +24,10 @@ def init_application
   puts 'Inizializzo Applicazione'
   default_app_name, default_ruby_version, default_server_url, repo_path = DEFAULTS
 
-  app_name = ask_with_default("Nome Applicazione)", default_app_name)
-  ruby_version = ask_with_default("Versione Ruby)", default_ruby_version)
-  server_url = ask_with_default("Url server remoto)", default_server_url)
-  repo_path = ask_with_default("Path del repository remoto)", repo_path)
+  app_name = ask_with_default("Nome Applicazione", default_app_name)
+  ruby_version = ask_with_default("Versione Ruby", default_ruby_version)
+  server_url = ask_with_default("Url server remoto", default_server_url)
+  repo_path = ask_with_default("Path del repository remoto", repo_path)
 
   @democom_application ||= DemocomApplication.new(app_name, ruby_version, server_url, repo_path)
 end
