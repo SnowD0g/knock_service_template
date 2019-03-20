@@ -8,27 +8,21 @@ def init_git
   puts "[Git] Inizializzo git locale: OK"
 
   #clone bare
-  puts "\n[Git] Clonazione bare in locale"
+  puts "\n[Git][1/3] Clonazione bare in locale"
   tempdir = Dir.mktmpdir("service")
-  #at_exit { FileUtils.remove_entry(tempdir) }
-  repo_name = "#{application_name}.git"
+  at_exit { FileUtils.remove_entry(tempdir) }
   git clone: "--bare . #{tempdir}/#{repo_name}"
-  puts "\n[Git] Clonazione bare in locale: OK"
+  puts "\n[Git][1/3] Clonazione bare in locale: OK"
   
   #remote
-  puts "\n[Git] Remote Repository"
-  server = ask("\nGit][1/4] Server Remoto (web@ns3051471.ovh.net:) ?")
-  server = "web@ns3051471.ovh.net:" unless server.present?
-  
-  remote_path = ask("\nGit][2/4] Path git (/home/web/git/) ?")
-  remote_path = "/home/web/git/" unless remote_path.present?
-  remote_url = "#{server}#{remote_path}"
-
-  puts "\n[Git][3/4] Creo il remote:"
+  puts "\n[Git][2/3] Remote Repository"
   git remote: "add deploy #{remote_url}#{repo_name}" 
+  puts "\n[Git][2/3] Remote Repository: OK"
+  
   #copia bare
-  puts "\n[Git][4/4] Copio il clone bare sul server remoto"
+  puts "\n[Git][3/3] Copia Remota del Bare"
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
+  puts "\n[Git][3/3] Copia Remota del Bare: OK"
   puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
 end
 
