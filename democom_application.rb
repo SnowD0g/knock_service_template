@@ -1,17 +1,14 @@
 class DemocomApplication
-  attr_reader :application_name, :ruby_version
+  attr_reader :application_name, :ruby_version, :server_url, :repo_path
 
-  def initialize
-    @application_name = ask('Nome Applicazione:').underscore
-    @ruby_version = ask('Versione ruby:')
+  def initialize(application_name, ruby_version, server_url, repo_path)
+    @application_name = application_name.underscore
+    @ruby_version = ruby_version
+    @server_url = server_url
+    @repo_path = repo_path
   end
   
   def remote_repo
-    "web@ns123123:/va/git/#{application_name}.git"
-  end
-  
-  def ask(string)
-    puts string
-    STDIN.gets.strip
+    "#{server_url}:#{repo_path}#{application_name}.git"
   end
 end
