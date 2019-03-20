@@ -3,30 +3,34 @@ require "shellwords"
 
 DEFAULTS = %w(my_app ruby-2.5.1 web@ns3051471.ovh.net /var/git/)
 
-if __FILE__ =~ %r{\Ahttps?://}
-  require "tmpdir"
-  source_paths.unshift(tempdir = Dir.mktmpdir("service-"))
-  at_exit { FileUtils.remove_entry(tempdir) }
-  git clone: [
-    "--quiet",
-    "https://github.com/SnowD0g/knock_service_template.git",
-    tempdir
-  ].map(&:shellescape).join(" ")
-else
-  source_paths.unshift(File.dirname(__FILE__))
+def add_template_repository_to_source_path
+  if __FILE__ =~ %r{\Ahttps?://}
+    require "tmpdir"
+    source_paths.unshift(tempdir = Dir.mktmpdir("service-"))
+    at_exit { FileUtils.remove_entry(tempdir) }
+    git clone: [
+      "--quiet",
+      "https://github.com/SnowD0g/knock_service_template.git",
+      tempdir
+    ].map(&:shellescape).join(" ")
+  else
+    source_paths.unshift(File.dirname(__FILE__))
+  end
 end
 
-apply('democom_application.rb')
+def init_application
+  apply('democom_application.rb')
 
-puts 'Inizializzo Applicazione'
-default_app_name, default_ruby_version, default_server_url, repo_path = DEFAULTS
+  puts 'Inizializzo Applicazione'
+  default_app_name, default_ruby_version, default_server_url, repo_path = DEFAULTS
 
-app_name = ask_with_default("Nome Applicazione: (#{default_app_name})", default_app_name)
-ruby_version = ask_with_default("Versione Ruby: (#{default_ruby_version})", default_ruby_version)
-server_url = ask_with_default("Url server remoto: (#{default_server_url})", default_server_url)
-repo_path = ask_with_default("Path del repository remoto: (#{repo_path})", repo_path)
+  app_name = ask_with_default("Nome Applicazione: (#{default_app_name})", default_app_name)
+  ruby_version = ask_with_default("Versione Ruby: (#{default_ruby_version})", default_ruby_version)
+  server_url = ask_with_default("Url server remoto: (#{default_server_url})", default_server_url)
+  repo_path = ask_with_default("Path del repository remoto: (#{repo_path})", repo_path)
 
-@democom_application ||= DemocomApplication.new(app_name, ruby_version, server_url, repo_path)
+  @democom_application ||= DemocomApplication.new(app_name, ruby_version, server_url, repo_path)
+end
 
 def application_name
   @democom_application.application_name
@@ -153,7 +157,8 @@ def ask_with_default(question, default, color = :blue)
 end
 
 # Main setup
-#add_template_repository_to_source_path
+add_template_repository_to_source_path
+init_application
 add_gems
 add_autoload_paths
 
