@@ -1,3 +1,5 @@
+require "rvm/capistrano"
+
 set :application, "%application_name%"
 set :repo_url, "%repo_path%"
 
