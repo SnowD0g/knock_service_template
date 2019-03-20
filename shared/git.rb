@@ -21,9 +21,9 @@ def init_git
   
   #copia bare
   puts "\n[Git][3/3] Copia Remota del Bare"
-  run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
+  run "scp -r #{tempdir}/#{repo_name} #{server_url}:/tmp"
   puts "\n[Git][3/3] Copia Remota del Bare: OK"
-  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{server_url}#{repo_name}"
+  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server_url}:/tmp -> #{server_url}:#{repo_name}"
 end
 
 init_git
