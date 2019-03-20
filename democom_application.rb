@@ -7,7 +7,11 @@ class DemocomApplication
     @server_url = server_url
     @repo_path = repo_path
   end
-  
+
+  def repo_name
+    "#{application_name}.git"
+  end
+
   def remote_repo
     "#{server_url}:#{repo_path}#{application_name}.git"
   end
