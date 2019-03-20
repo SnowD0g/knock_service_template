@@ -1,4 +1,4 @@
-server 'ns3051471.ovh.net', user: 'web', roles: %w{app db web}
+server 'ns3051471.ovh.net', user: 'root', roles: %w{app db web}
 set :stage, :staging
 set :branch, :staging
 set :deploy_to, "/home/web/www/#{fetch(:application)}_staging"
