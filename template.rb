@@ -32,20 +32,9 @@ def init_application
   @democom_application ||= DemocomApplication.new(app_name, ruby_version, server_url, repo_path)
 end
 
-def application_name
-  @democom_application.application_name
-end
-
-def repo_name
-  @democom_application.repo_name
-end
-
-def remote_repo
-  @democom_application.remote_repo
-end
-
-def ruby_version
-  @democom_application.ruby_version
+def method_missing(method_name, *args, &block)
+  super unless @democom_application.respond_to?(method_name)
+  @democom_application.send(method_name)
 end
 
 def rails_version
