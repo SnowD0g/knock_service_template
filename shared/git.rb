@@ -16,14 +16,14 @@ def init_git
   
   #remote
   puts "\n[Git][2/3] Remote Repository"
-  git remote: "add deploy #{remote_url}#{repo_name}" 
+  git remote: "add deploy #{server_url}#{repo_name}" 
   puts "\n[Git][2/3] Remote Repository: OK"
   
   #copia bare
   puts "\n[Git][3/3] Copia Remota del Bare"
   run "scp -r #{tempdir}/#{repo_name} #{server}/tmp"
   puts "\n[Git][3/3] Copia Remota del Bare: OK"
-  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{remote_url}#{repo_name}"
+  puts "Copia effettuata con successo! Spostare manualmente il bare da #{server}/tmp -> #{server_url}#{repo_name}"
 end
 
 init_git
