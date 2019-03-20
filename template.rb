@@ -1,6 +1,8 @@
 require "fileutils"
 require "shellwords"
 
+DEFAULTS = %w(my_app ruby-2.5.1 web@ns3051471.ovh.net /var/git/)
+
 if __FILE__ =~ %r{\Ahttps?://}
   require "tmpdir"
   source_paths.unshift(tempdir = Dir.mktmpdir("service-"))
@@ -16,10 +18,22 @@ end
 
 apply('democom_application.rb')
 
-@democom_application ||= DemocomApplication.new
+puts 'Inizializzo Applicazione'
+default_app_name, default_ruby_version, default_server_url, repo_path = DEFAULTS
+
+app_name = ask_with_default("Nome Applicazione: (#{default_app_name})", default_app_name)
+ruby_version = ask_with_default("Versione Ruby: (#{default_ruby_version})", default_ruby_version)
+server_url = ask_with_default("Url server remoto: (#{default_server_url})", default_server_url)
+repo_path = ask_with_default("Path del repository remoto: (#{repo_path})", repo_path)
+
+@democom_application ||= DemocomApplication.new(app_name, ruby_version, server_url, repo_path)
 
 def application_name
   @democom_application.application_name
+end
+
+def repo_name
+  @democom_application.repo_name
 end
 
 def remote_repo
@@ -129,6 +143,13 @@ end
 def init_foreman
   copy_file('Procfile')
   run "foreman start"
+end
+
+def ask_with_default(question, default, color = :blue)
+  return default unless $stdin.tty?
+  question = (question.split("?") << " [#{default}]?").join
+  answer = ask(question, color)
+  answer.to_s.strip.empty? ? default : answer
 end
 
 # Main setup
