@@ -11,6 +11,4 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 #append :linked_files, 'config/master.key'
 #append :linked_files, 'config/.env'
 
-before 'deploy', 'rvm:create_gemset'
-
 set :keep_releases, 3
