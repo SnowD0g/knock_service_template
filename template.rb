@@ -113,6 +113,11 @@ def add_knock
   insert_into_file "config/routes.rb", "#{content}\n\n", after: "Rails.application.routes.draw do\n"
 end
 
+def add_rvm_files
+  create_file '.ruby-gemset', application_name
+  create_file '.ruby-version', ruby_version
+end
+
 def stop_spring
   run "spring stop"
 end
@@ -148,6 +153,7 @@ end
 # Main setup
 add_template_repository_to_source_path
 init_application
+add_rvm_files
 add_gems
 add_autoload_paths
 
