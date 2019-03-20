@@ -2,7 +2,7 @@
 require 'capistrano/setup'
 require 'capistrano/ssh_doctor'
 require 'capistrano/deploy'
-require 'capistrano/rvm'
+require "rvm/capistrano"
 require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano/passenger'
