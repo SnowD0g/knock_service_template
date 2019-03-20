@@ -10,7 +10,7 @@ end
 def deploy
   copy_file 'config/deploy.rb'
   gsub_file('config/deploy.rb', /%application_name%/, application_name)
-  gsub_file('config/deploy.rb', /%repo_path%/, repo_path)
+  gsub_file('config/deploy.rb', /%repo_path%/, "#{repo_path}#{repo_name}")
   gsub_file('config/deploy.rb', /%ruby_version%/, ruby_version)
 end
 
